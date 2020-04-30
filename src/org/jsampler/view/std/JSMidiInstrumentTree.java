@@ -390,7 +390,10 @@ public class JSMidiInstrumentTree extends JTree {
 		public String
 		toString() {
 			int i = CC.getViewConfig().getFirstMidiBankNumber();
-			return i18n.getLabel("JSMidiInstrumentTree.MidiBank.name", i + id);
+			int msb = (id >> 7) & 0x7f;
+			int lsb = id & 0x7f;
+			String bankId = String.format("%03d:%03d", msb + i, lsb + i);
+			return i18n.getLabel("JSMidiInstrumentTree.MidiBank.name", bankId);
 		}
 	}
 	
