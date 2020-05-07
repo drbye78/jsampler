@@ -43,6 +43,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
@@ -292,7 +293,7 @@ public class JSLSConsolePane extends JPanel {
 			FileOutputStream fos = new FileOutputStream(s, false);
 			
 			for(String line : getModel().getCommandHistory()) {
-				fos.write(line.getBytes("US-ASCII"));
+				fos.write(line.getBytes(StandardCharsets.UTF_8));
 				fos.write('\n');
 			}
 			

@@ -25,6 +25,7 @@ package org.jsampler;
 import java.io.ByteArrayOutputStream;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.util.logging.Level;
 import java.util.zip.GZIPOutputStream;
@@ -351,7 +352,7 @@ public class JSUtils {
 			gzos.finish();
 			byte[] data = baos2.toByteArray();
 			data[3] = 8; // File name
-			byte[] fn = "x-rosegarden-device".getBytes("US-ASCII");
+			byte[] fn = "x-rosegarden-device".getBytes(StandardCharsets.US_ASCII);
 			int fnsize = fn.length;
 			data2 = new byte[data.length + fnsize + 1];
 			

@@ -29,6 +29,7 @@ import java.io.UnsupportedEncodingException;
 
 import java.net.Socket;
 
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.Vector;
 
@@ -63,7 +64,7 @@ public class DefaultLSConsoleModel implements LSConsoleModel {
 	/**
 	 * Contains the global command history, excluding blank lines and comments.
 	 */
-	private final LinkedList<String> cmdHistory = new LinkedList<String>();
+	private final LinkedList<String> cmdHistory = new LinkedList<>();
 	
 	private int cmdHistoryIdx = -1;
 	
@@ -75,12 +76,12 @@ public class DefaultLSConsoleModel implements LSConsoleModel {
 	 * Contains the command history of the current
 	 * session, including blank lines and comments.
 	 */
-	private final Vector<String> sessionHistory = new Vector<String>();
+	private final Vector<String> sessionHistory = new Vector<>();
 	
 	/** Used to hold the current command when browsing through command history, etc. */
 	private String currentCmd = "";
 	
-	private final Vector<LSConsoleListener> listeners = new Vector<LSConsoleListener>();
+	private final Vector<LSConsoleListener> listeners = new Vector<>();
 	
 	
 	/** Creates a new instance of <code>DefaultLSConsoleModel</code>. */
@@ -326,7 +327,7 @@ public class DefaultLSConsoleModel implements LSConsoleModel {
 		setCommandLineText(cmdHistory.get(cmdHistoryIdx));
 	}
 	
-	private Vector<String> tmpVector = new Vector<String>();
+	private final Vector<String> tmpVector = new Vector<>();
 	
 	/**
 	 * Searches the command history for commands
@@ -348,7 +349,7 @@ public class DefaultLSConsoleModel implements LSConsoleModel {
 	public String[]
 	searchCommandHistory(String substring) {
 		tmpVector.removeAllElements();
-		for(String s : cmdHistory) if(s.indexOf(substring) != -1) tmpVector.add(s);
+		for(String s : cmdHistory) if(s.contains(substring)) tmpVector.add(s);
 		
 		return tmpVector.toArray(new String[tmpVector.size()]);
 	}
@@ -373,7 +374,7 @@ public class DefaultLSConsoleModel implements LSConsoleModel {
 	public String[]
 	searchCommandList(String substring) {
 		tmpVector.removeAllElements();
-		for(String s : cmdList) if(s.indexOf(substring) != -1) tmpVector.add(s);
+		for(String s : cmdList) if(s.contains(substring)) tmpVector.add(s);
 		
 		return tmpVector.toArray(new String[tmpVector.size()]);
 	}
@@ -412,7 +413,7 @@ public class DefaultLSConsoleModel implements LSConsoleModel {
 	
 	/** Executes LS Console command. */
 	private class LSConsoleExecCommand extends org.jsampler.task.EnhancedTask {
-		private String cmd;
+		private final String cmd;
 		
 		/** Creates a new instance of <code>LSConsoleExecCommand</code>. */
 		public
@@ -471,9 +472,9 @@ public class DefaultLSConsoleModel implements LSConsoleModel {
 		setInputStream(LscpInputStream in) { this.in = in; }
 	}
 	
-	class LscpInputStream {
-		private InputStream in;
-		private StringBuffer buf = new StringBuffer();
+	static class LscpInputStream {
+		private final InputStream in;
+		private final StringBuffer buf = new StringBuffer();
 		
 		/**
 		 * Creates a new instance of LscpInputStream.
@@ -532,8 +533,8 @@ public class DefaultLSConsoleModel implements LSConsoleModel {
 		}
 	}
 	
-	class LscpOutputStream {
-		private OutputStream out;
+	static class LscpOutputStream {
+		private final OutputStream out;
 	
 		/** Creates a new instance of LscpOutputStream */
 		public
@@ -546,7 +547,7 @@ public class DefaultLSConsoleModel implements LSConsoleModel {
 		public void
 		writeLine(String line) throws IOException {
 			try {
-				out.write(line.getBytes("US-ASCII"));
+				out.write(line.getBytes(StandardCharsets.UTF_8));
 				out.write('\r');
 				out.write('\n');
 				out.flush();

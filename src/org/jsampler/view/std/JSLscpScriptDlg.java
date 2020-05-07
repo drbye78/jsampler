@@ -31,6 +31,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
@@ -136,7 +137,7 @@ public class JSLscpScriptDlg extends JDialog {
 		
 		try {
 			FileOutputStream fos = new FileOutputStream(f);
-			fos.write(textPane.getText().getBytes("US-ASCII"));
+			fos.write(textPane.getText().getBytes(StandardCharsets.UTF_8));
 			fos.close();
 		} catch(Exception e) {
 			CC.getLogger().log(Level.FINE, HF.getErrorMessage(e), e);

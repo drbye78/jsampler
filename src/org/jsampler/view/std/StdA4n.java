@@ -60,6 +60,8 @@ public class StdA4n {
 	
 	protected JSPrefs preferences() { return CC.getViewConfig().preferences(); }
 	
+	private static final String ENCODING = "UTF-8";
+	
 	protected void
 	exportSamplerConfig() {
 		File f = StdUtils.showSaveLscpFileChooser();
@@ -74,7 +76,7 @@ public class StdA4n {
 
 		try {
 			FileOutputStream fos = new FileOutputStream(f);
-			fos.write(JSUtils.exportSessionToLscpScript().getBytes("US-ASCII"));
+			fos.write(JSUtils.exportSessionToLscpScript().getBytes(ENCODING));
 			fos.close();
 		} catch(Exception x) {
 			CC.getLogger().log(Level.FINE, HF.getErrorMessage(x), x);
@@ -104,13 +106,13 @@ public class StdA4n {
 			FileOutputStream fos;
 			if(ext.equals(".lscp")) {
 				fos = new FileOutputStream(f);
-				fos.write(JSUtils.exportInstrMapsToLscpScript().getBytes("US-ASCII"));
+				fos.write(JSUtils.exportInstrMapsToLscpScript().getBytes(ENCODING));
 			} else if(ext.equals(".txt")) {
 				fos = new FileOutputStream(f);
-				fos.write(JSUtils.exportInstrMapsToText().getBytes("US-ASCII"));
+				fos.write(JSUtils.exportInstrMapsToText().getBytes(ENCODING));
 			} else if(ext.equals(".htm") || ext.equals(".html")) {
 				fos = new FileOutputStream(f);
-				fos.write(JSUtils.exportInstrMapsToHtml().getBytes("US-ASCII"));
+				fos.write(JSUtils.exportInstrMapsToHtml().getBytes(ENCODING));
 			} else if(ext.equals(".rgd")) {
 				byte[] data = JSUtils.exportInstrMapsToRGD();
 				if(data == null) {
@@ -129,7 +131,7 @@ public class StdA4n {
 				}
 				
 				fos = new FileOutputStream(f);
-				fos.write(JSUtils.exportInstrMapsToLscpScript().getBytes("US-ASCII"));
+				fos.write(JSUtils.exportInstrMapsToLscpScript().getBytes(ENCODING));
 			}
 
 			fos.close();
